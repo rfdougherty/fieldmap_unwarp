@@ -123,6 +123,8 @@ def fieldmap_unwarp(fmfile, fmmagfile, epifile):
         d[:,:,:,t] = unwarp
 
 if __name__ == '__main__':
+    # Image pyramid contains a nice image montage function:
+    from nimsutil import pyramid
 
     epifile='/nimsfs/nims/ngolden/20120816_3167/0005_01_DTI_2mm_b2500_96dir.nii.gz'
     epi=nibabel.load(epifile)
