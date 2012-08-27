@@ -10,8 +10,6 @@ Chapter 6
 Cleveland (1979). Robust Locally Weighted Regression and Smoothing
 Scatterplots. J American Statistical Association, 74: 829-836.
 
-Loosely based on Matlab(c) code by Kendrick Kay 
-
 """
 import numpy as np
 import scipy.linalg as la
