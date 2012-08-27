@@ -82,6 +82,7 @@ def lowess(x, w, x0, kernel=epanechnikov, l=1):
     -------
     >>> import lowess as lo
     >>> import numpy as np
+
     # For the 1D case:
     >>> x = np.random.randn(100)
     >>> f = np.sin(x)
@@ -95,11 +96,10 @@ def lowess(x, w, x0, kernel=epanechnikov, l=1):
 
     # 2D case (and more...)
     >>> x = np.random.randn(2, 100)
-    >>> f = -1 * np.sin(x[0]) + 0.5 * cos(x[1])
+    >>> f = -1 * np.sin(x[0]) + 0.5 * np.cos(x[1])
     >>> x0 = np.mgrid[-1:1:.1, -1:1:.1]
     >>> x0 = np.vstack([x0[0].ravel(), x0[1].ravel()])
     >>> f_hat = lo.lowess(x, f, x0, kernel=lo.tri_cube)
-    >>> f_real = np.sin(x0)
     >>> from mpl_toolkits.mplot3d import Axes3D
     >>> fig = plt.figure()
     >>> ax = fig.add_subplot(111, projection='3d')
@@ -119,18 +119,22 @@ def lowess(x, w, x0, kernel=epanechnikov, l=1):
             this_x0 = np.asarray([this_x0])
         # Different weighting kernel for each x0:
         W = np.diag(do_kernel(this_x0, x, l=l, kernel=kernel))
-
-        # XXX It should be possible to calculate W outside the loop, if x0 and x
-        # are both sampled in some regular fashion (that is, if W is the same
+        # XXX It should be possible to calculate W outside the loop, if x0 and
+        # x are both sampled in some regular fashion (that is, if W is the same
         # matrix in each iteration). That should save time.
-
-        # Equation 6.8 in FHT:
-        BtWB = np.dot(np.dot(B.T, W), B)
-        BtW = np.dot(B.T, W)
-        # Get the params:
-        beta = np.dot(np.dot(la.inv(BtWB), BtW), w.T)
-        # Estimate the answer based on the parameters:
-        ans[idx] += beta[0] + np.dot(beta[1:], this_x0)
+        try: 
+            # Equation 6.8 in FHT:
+            BtWB = np.dot(np.dot(B.T, W), B)
+            BtW = np.dot(B.T, W)
+            # Get the params:
+            beta = np.dot(np.dot(la.inv(BtWB), BtW), w.T)
+            # Estimate the answer based on the parameters:
+            ans[idx] += beta[0] + np.dot(beta[1:], this_x0)
+        # If we are trying to sample far away from where the function is
+        # defined, we will be trying to invert a singular matrix. In that case,
+        # the regression should not work for you and you should get a nan:
+        except la.LinAlgError:
+            ans[idx] += np.nan
 
     return ans.T
 
