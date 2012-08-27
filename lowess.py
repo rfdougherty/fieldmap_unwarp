@@ -65,10 +65,11 @@ def lowess(x, w, x0, kernel=epanechnikov, l=1):
         A kernel function. {'epanechnikov', 'tri_cube'}
 
     l: float or float array with shape = x.shape
-       The metric window size for 
+       The metric window size for the kernel
+ 
     Returns
     -------
-    The function estimated at x0, locally linearily estimated
+    The function estimated at x0. 
 
     Notes
     -----
