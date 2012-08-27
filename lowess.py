@@ -2,7 +2,7 @@
 lowess: Locally linear regression  
 ==================================
 
-Implementation of the LOWESS algorithm in 3 dimensions
+Implementation of the LOWESS algorithm in n dimensions.
 
 Friedman, Hastie and Tibshirani (2008). The Elements of Statistical Learning;
 Chapter 6 
