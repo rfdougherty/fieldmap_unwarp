@@ -87,7 +87,7 @@ def lowess(x, w, x0, kernel=epanechnikov, l=1):
 
     # For the 1D case:
     >>> x = np.random.randn(100)
-    >>> f = np.sin(x)
+    >>> f = np.cos(x) + 0.2 * np.random.randn(100)
     >>> x0 = np.linspace(-1,1,10)
     >>> f_hat = lo.lowess(x, f, x0)
     >>> import matplotlib.pyplot as plt
@@ -98,7 +98,7 @@ def lowess(x, w, x0, kernel=epanechnikov, l=1):
 
     # 2D case (and more...)
     >>> x = np.random.randn(2, 100)
-    >>> f = -1 * np.sin(x[0]) + 0.5 * np.cos(x[1])
+    >>> f = -1 * np.sin(x[0]) + 0.5 * np.cos(x[1]) + 0.2*np.random.randn(100)
     >>> x0 = np.mgrid[-1:1:.1, -1:1:.1]
     >>> x0 = np.vstack([x0[0].ravel(), x0[1].ravel()])
     >>> f_hat = lo.lowess(x, f, x0, kernel=lo.tri_cube)
