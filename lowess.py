@@ -52,14 +52,18 @@ def lowess(x, w, x0, kernel=epanechnikov, l=1):
 
     Parameters
     ----------
-    x: float array
-       Values of x for which f(x) is known (e.g. measured)
+    x: float n-d array  
+       Values of x for which f(x) is known (e.g. measured). The shape of this
+       is (n, j), where n is the number the dimensions of the and j is the
+       number of distinct coordinates sampled.  
     
     w: float array
-       The known values of f(x) at these points 
+       The known values of f(x) at these points. This has shape (j,) 
 
     x0: float or float array.
-        Values of x for which we estimate the value of f(x) 
+        Values of x for which we estimate the value of f(x). This is either a
+        single scalar value (only possible for the 1d case, in which case f(x0)
+        is estimated for just that one value of x), or an array of shape (n, k).
 
     kernel: callable
         A kernel function. {'epanechnikov', 'tri_cube'}
@@ -73,7 +77,6 @@ def lowess(x, w, x0, kernel=epanechnikov, l=1):
 
     Notes
     -----
-
     The solution to this problem is given by equation 6.8 in Friedman, Hastie
     and Tibshirani (2008). The Elements of Statistical Learning (Chapter 6).
 
